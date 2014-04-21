@@ -1,0 +1,4 @@
+#HitAdjust Config
+
+#delay in ms between being able to deal damage to a player
+hitdelay: 1000

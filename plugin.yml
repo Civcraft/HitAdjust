@@ -4,3 +4,14 @@ version: 1.0.0
 description: Moves the hit limiter from the defender to the attacker
 author: Squeenix
 depend: [ProtocolLib]
+
+commands:
+  hitadjust:
+    description: "Change hitadjust delay."
+    usage: "Usage: /hitadjust delay <milliseconds>"
+    permission: hitadjust.admin
+    
+permissions:
+  hitadjust.admin:
+    description: "hitadjust admin"
+    default: false
