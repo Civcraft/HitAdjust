@@ -1,4 +1,7 @@
 #HitAdjust Config
 
 #delay in ms between being able to deal damage to a player
-hitdelay: 1000
+hitdelay: 500
+invincibilitylength: 1
+meleeEnabled: true
+bowEnabled: true
