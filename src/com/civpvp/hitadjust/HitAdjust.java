@@ -28,6 +28,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 	private ConcurrentHashMap<Player, Long> defTime;
 	private int hitDelay = this.getConfig().getInt("hitdelay", 500);
 	private int getHitDelay = this.getConfig().getInt("invincibilitylength", 1);
+	private double kbModifier = this.getConfig().getDouble("knockbackmodifier", 1);
 	private boolean meleeEnabled = this.getConfig().getBoolean("meleeEnabled", true);
 	private boolean bowEnabled = this.getConfig().getBoolean("bowEnabled", true);
 	
@@ -49,6 +50,10 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 			else if(args[0].equalsIgnoreCase("invincibilitylength")){
 				getHitDelay = Integer.valueOf(args[1]);
 				sender.sendMessage("Invincibility length set to "+args[1]+"ms");
+			}
+			else if(args[0].equalsIgnoreCase("kbmodifier")){
+				kbModifier = Double.valueOf(args[1]);
+				sender.sendMessage("KB modifier set to length set to "+args[1]+"ms");
 			}
 			else if(args[0].equalsIgnoreCase("enable")){
 				if(args[1].equalsIgnoreCase("melee")){
@@ -94,6 +99,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
     			if(!e.isCancelled()){ //EventPriority set to 'lowest', should happen after NCP check
     				offTime.put((Player)damager, System.currentTimeMillis());
     				defTime.put((Player)hitEntity, System.currentTimeMillis());
+    				adjustVelocity((Player)hitEntity);
     			}
     			return;
 			}else{
@@ -118,6 +124,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 	    			if(!e.isCancelled()){ //EventPriority set to 'lowest', should happen after NCP check
 	    				offTime.put((Player)shooter, System.currentTimeMillis());
 	    				defTime.put((Player)hitEntity, System.currentTimeMillis());
+	    				adjustVelocity((Player)hitEntity);
 	    			}
 	    			return;
 				}else{
@@ -125,6 +132,15 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 				}	
 			}
 		}
+	}
+	
+	private void adjustVelocity(final Player p){
+		//Create task to set velocity again 1t later
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable(){
+			public void run() {
+				p.setVelocity(p.getVelocity().clone().multiply(kbModifier));
+			}
+		}, 1L);
 	}
 }
 
