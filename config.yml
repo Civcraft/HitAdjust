@@ -3,5 +3,6 @@
 #delay in ms between being able to deal damage to a player
 hitdelay: 500
 invincibilitylength: 1
+knockbackmodifier: 1
 meleeEnabled: true
 bowEnabled: true
