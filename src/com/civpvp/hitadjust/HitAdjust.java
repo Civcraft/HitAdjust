@@ -1,6 +1,7 @@
 package com.civpvp.hitadjust;
 
 
+import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.command.Command;
@@ -29,8 +30,9 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 	private int hitDelay = this.getConfig().getInt("hitdelay", 500);
 	private int getHitDelay = this.getConfig().getInt("invincibilitylength", 1);
 	private double kbModifier = this.getConfig().getDouble("knockbackmodifier", 1);
-	private boolean meleeEnabled = this.getConfig().getBoolean("meleeEnabled", true);
-	private boolean bowEnabled = this.getConfig().getBoolean("bowEnabled", true);
+	private boolean meleeEnabled = this.getConfig().getBoolean("meleeenabled", true);
+	private boolean bowEnabled = this.getConfig().getBoolean("bowenabled", true);
+	private boolean chargeUp = this.getConfig().getBoolean("charge", false);
 	
 	
 	@Override
@@ -38,7 +40,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 		getServer().getPluginManager().registerEvents(this, this);
 		offTime = new ConcurrentHashMap<Player,Long>();
 		defTime = new ConcurrentHashMap<Player,Long>();
-		this.saveDefaultConfig();
+	    this.saveDefaultConfig();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -97,6 +99,25 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
     				mcEntity.noDamageTicks=0;
     			}
     			if(!e.isCancelled()){ //EventPriority set to 'lowest', should happen after NCP check
+    				
+    				if(chargeUp){ //Hit does more damage if done more than 500ms from last attack
+    					double highestMultiplier = 2;
+    					Long highestTime = 1500L; //highest damage at 2000ms
+    					Long timeAbove = 0L;
+    					if(offTime.containsKey(damager)){
+    						timeAbove = System.currentTimeMillis() - offTime.get(damager);
+    					}
+    					if(timeAbove > 10000){
+    						timeAbove = 0L;
+    					}
+    					if(timeAbove > highestTime){
+    						timeAbove = highestTime;
+    					}
+    					double multiplier = ((double)timeAbove) / ((double)highestTime) * (highestMultiplier-1) + 1;
+    					System.out.println(multiplier);
+    					e.setDamage(e.getDamage()*multiplier);
+    				}
+    				
     				offTime.put((Player)damager, System.currentTimeMillis());
     				defTime.put((Player)hitEntity, System.currentTimeMillis());
     				adjustVelocity((Player)hitEntity);
