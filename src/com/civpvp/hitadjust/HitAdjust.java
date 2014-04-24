@@ -107,7 +107,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
     					if(offTime.containsKey(damager)){
     						timeAbove = System.currentTimeMillis() - offTime.get(damager);
     					}
-    					if(timeAbove > 10000){
+    					if(timeAbove > 5000){
     						timeAbove = 0L;
     					}
     					if(timeAbove > highestTime){
