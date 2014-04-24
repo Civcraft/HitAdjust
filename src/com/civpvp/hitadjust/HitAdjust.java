@@ -101,7 +101,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
     			if(!e.isCancelled()){ //EventPriority set to 'lowest', should happen after NCP check
     				
     				if(chargeUp){ //Hit does more damage if done more than 500ms from last attack
-    					double highestMultiplier = 2;
+    					double highestMultiplier = 1.75;
     					Long highestTime = 1500L; //highest damage at 2000ms
     					Long timeAbove = 0L;
     					if(offTime.containsKey(damager)){
