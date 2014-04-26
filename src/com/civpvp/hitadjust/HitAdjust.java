@@ -114,7 +114,6 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
     						timeAbove = highestTime;
     					}
     					double multiplier = ((double)timeAbove) / ((double)highestTime) * (highestMultiplier-1) + 1;
-    					System.out.println(multiplier);
     					e.setDamage(e.getDamage()*multiplier);
     				}
     				
