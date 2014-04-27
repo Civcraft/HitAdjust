@@ -6,4 +6,4 @@ invincibilitylength: 1
 knockbackmodifier: 1
 meleeEnabled: true
 bowEnabled: true
-charge: false
+charge: true
