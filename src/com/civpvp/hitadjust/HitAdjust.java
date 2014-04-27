@@ -32,7 +32,7 @@ public class HitAdjust extends JavaPlugin implements Listener, CommandExecutor{
 	private double kbModifier = this.getConfig().getDouble("knockbackmodifier", 1);
 	private boolean meleeEnabled = this.getConfig().getBoolean("meleeenabled", true);
 	private boolean bowEnabled = this.getConfig().getBoolean("bowenabled", true);
-	private boolean chargeUp = this.getConfig().getBoolean("charge", false);
+	private boolean chargeUp = this.getConfig().getBoolean("charge", true);
 	
 	
 	@Override
